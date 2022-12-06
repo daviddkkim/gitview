@@ -153,7 +153,7 @@
     "btoa-lite" "^1.0.0"
     "universal-user-agent" "^6.0.0"
 
-"@octokit/auth-token@^3.0.0", "@octokit/auth-token@^3.0.2":
+"@octokit/auth-token@^3.0.0":
   "integrity" "sha512-pq7CwIMV1kmzkFTimdwjAINCXKTajZErLB4wMLYapR2nuB/Jpr66+05wOTZMSCBXP6n4DdDWT2W19Bm17vU69Q=="
   "resolved" "https://registry.npmjs.org/@octokit/auth-token/-/auth-token-3.0.2.tgz"
   "version" "3.0.2"

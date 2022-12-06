@@ -11,7 +11,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@octokit/auth-token": "^3.0.2",
     "@octokit/types": "^8.0.0",
     "@radix-ui/colors": "^0.1.8",
     "@stitches/react": "^1.2.8",
