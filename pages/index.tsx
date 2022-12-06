@@ -1,7 +1,7 @@
 import { Endpoints } from "@octokit/types";
 import React from "react";
 import { ReactElement, useEffect } from "react";
-import { Layout, Box } from "../components";
+import { Layout, Box, Link } from "../components";
 import { styled } from "../stitches.config";
 import { NextPageWithLayout } from "./_app";
 
@@ -47,14 +47,15 @@ const Page: NextPageWithLayout = () => {
         css={{
           gap: "$2",
           maxWidth: "100%",
-          flexDirection: "column",
-          overflow: "hidden",
+          flexDirection: "row",
+          flexWrap: 'wrap'
         }}
       >
-        {data &&
+        {data?
           data.map((repo) => {
-            return <Box key={repo.id}>{repo.name}</Box>;
-          })}
+            return <Link key={repo.id} href={'/' + repo.name}>{repo.name}</Link>;
+          }): 
+          <div> loading...</div>}
       </Box>
     </Box>
   );
