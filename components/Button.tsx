@@ -36,9 +36,9 @@ export const Button = styled("button", {
           backgroundColor: "$fgHover",
           borderColor: "$fgBorderHover",
         },
-        "svg": {
+        svg: {
           color: "$textSecondary",
-        }
+        },
       },
       tertiary: {
         backgroundColor: "transparent",
@@ -46,9 +46,9 @@ export const Button = styled("button", {
         "&:hover": {
           backgroundColor: "$fgHover",
         },
-        "svg": {
+        svg: {
           color: "$textSecondary",
-        }
+        },
       },
     },
     stretch: {

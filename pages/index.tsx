@@ -48,14 +48,21 @@ const Page: NextPageWithLayout = () => {
           gap: "$2",
           maxWidth: "100%",
           flexDirection: "row",
-          flexWrap: 'wrap'
+          flexWrap: "wrap",
         }}
       >
-        {data?
+        {data ? (
           data.map((repo) => {
-            return <Link key={repo.id} href={'/' + repo.name}>{repo.name}</Link>;
-          }): 
-          <div> loading...</div>}
+            console.log(repo.name)
+            return (
+              <Link key={repo.id} href={"/" + repo.name}>
+                {repo.name}
+              </Link>
+            );
+          })
+        ) : (
+          <div> loading...</div>
+        )}
       </Box>
     </Box>
   );

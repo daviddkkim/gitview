@@ -10,6 +10,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const response = await octokit.request("GET /user/repos");
+  const response = await octokit.request("GET /user/repos?sort=updated,direction=desc,per_page=100",);
   res.status(200).json(response.data);
 }

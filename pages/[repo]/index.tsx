@@ -11,7 +11,6 @@ const Title = styled("h1", {
 });
 
 const Page: NextPageWithLayout = () => {
-
   return (
     <Box
       css={{
@@ -21,7 +20,7 @@ const Page: NextPageWithLayout = () => {
       }}
     >
       <Title>Repo</Title>
-      <Link href={'/'}>Back</Link>
+      <Link href={"/"}>Back</Link>
     </Box>
   );
 };

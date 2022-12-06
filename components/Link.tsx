@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const StyledLink = styled(Link, {
   unset: "all",
-  textDecoration: 'none',
+  textDecoration: "none",
   fontSize: "$3",
   gap: "$2",
   height: "$6",
@@ -14,7 +14,7 @@ const StyledLink = styled(Link, {
   display: "flex",
   alignItems: "center",
   outline: "none",
-  cursor: 'default',
+  cursor: "default",
   "&:focus-visible": {
     borderColor: "$focusBorder",
     boxShadow: "0px 0px 0px 2px $colors$focusShadow",
@@ -45,7 +45,6 @@ const StyledLink = styled(Link, {
         "&:hover": {
           backgroundColor: "$fgHover",
         },
-        
       },
     },
     stretch: {
