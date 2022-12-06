@@ -12,9 +12,8 @@ const Title = styled("h1", {
   fontFamily: "$mono",
 });
 
-
-
-type listUserReposResponseData = Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"];
+type listUserReposResponseData =
+  Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"];
 
 const Page: NextPageWithLayout = () => {
   const { query, isReady } = useRouter();
@@ -36,7 +35,7 @@ const Page: NextPageWithLayout = () => {
         setData(dataBody);
       });
     }
-  }, []);
+  }, [isReady, repo]);
 
   return (
     <Box
@@ -48,9 +47,7 @@ const Page: NextPageWithLayout = () => {
     >
       <Title>Repo</Title>
       <Link href={"/"}>Back</Link>
-      <div>
-        {data && data.name}
-      </div>
+      <div>{data && data.name}</div>
     </Box>
   );
 };
