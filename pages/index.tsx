@@ -1,5 +1,6 @@
-import type { NextPage } from 'next'
-import { ReactElement } from 'react';
+import { Endpoints } from '@octokit/types';
+import React from 'react';
+import { ReactElement, useEffect } from 'react';
 import { Layout, Box } from '../components';
 import { styled } from '../stitches.config';
 import { NextPageWithLayout } from './_app';
@@ -10,16 +11,52 @@ const Title = styled('h1', {
   fontFamily: "$mono"
 })
 
+type listUserReposResponseData = Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"];
+
 
 const Page: NextPageWithLayout = () => {
+
+ 
+  const [data, setData] = React.useState<listUserReposResponseData[] | null>(null)
+
+  useEffect(() => {
+    const url = '/api/getRepos'
+      fetch(url, {
+          method: 'GET',
+          headers: {
+              accept: 'application/json',
+          }
+      }
+      ).then(async (data) => {
+          console.log(url)
+          const dataBody = await data.json() as listUserReposResponseData[];
+          console.log(dataBody)
+          setData(dataBody)
+      })
+
+  }, [])
+
   return (
     <Box css={{
       padding: '$4',
-      gap: '$4'
+      gap: '$4',
+      flexDirection: 'column'
     }}>
       <Title>
         Gitview
       </Title>
+      <Box css={{
+      gap: '$2',
+      maxWidth: '100%',
+      flexDirection: 'column',
+      overflow: 'hidden'
+    }}>
+        {data && data.map((repo)=> {
+          return(<Box>
+            {repo.name}
+          </Box>)
+        })}
+      </Box>
     </Box>
   )
 }
