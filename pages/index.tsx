@@ -20,16 +20,14 @@ const Page: NextPageWithLayout = () => {
   );
 
   useEffect(() => {
-    const url = "/api/getRepos";
+    const url = "/api/repos";
     fetch(url, {
       method: "GET",
       headers: {
         accept: "application/json",
       },
     }).then(async (data) => {
-      console.log(url);
       const dataBody = (await data.json()) as listUserReposResponseData[];
-      console.log(dataBody);
       setData(dataBody);
     });
   }, []);
@@ -53,7 +51,6 @@ const Page: NextPageWithLayout = () => {
       >
         {data ? (
           data.map((repo) => {
-            console.log(repo.name)
             return (
               <Link key={repo.id} href={"/" + repo.name}>
                 {repo.name}

@@ -1,3 +1,5 @@
+import { Endpoints } from "@octokit/types";
+import { useRouter } from "next/router";
 import React from "react";
 import { ReactElement, useEffect } from "react";
 import { Layout, Box, Link } from "../../components";
@@ -10,7 +12,32 @@ const Title = styled("h1", {
   fontFamily: "$mono",
 });
 
+
+
+type listUserReposResponseData = Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"];
+
 const Page: NextPageWithLayout = () => {
+  const { query, isReady } = useRouter();
+  const { repo } = query;
+  const [data, setData] = React.useState<listUserReposResponseData | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (isReady) {
+      const url = "/api/repos/" + repo;
+      fetch(url, {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+        },
+      }).then(async (data) => {
+        const dataBody = (await data.json()) as listUserReposResponseData;
+        setData(dataBody);
+      });
+    }
+  }, []);
+
   return (
     <Box
       css={{
@@ -21,6 +48,9 @@ const Page: NextPageWithLayout = () => {
     >
       <Title>Repo</Title>
       <Link href={"/"}>Back</Link>
+      <div>
+        {data && data.name}
+      </div>
     </Box>
   );
 };
