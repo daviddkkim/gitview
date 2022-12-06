@@ -1,13 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { Octokit } from 'octokit';
 
-type Data = {
-  name: string
-}
+const octokit = new Octokit({
+  auth: process.env.GIT_ACCESS_TOKEN
+})
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  const response = await octokit.request('GET /user/repos')
+  res.status(200).json(response.data)
 }

@@ -6,7 +6,8 @@ import { NextPageWithLayout } from './_app';
 
 const Title = styled('h1', {
   margin: '0',
-  fontSize: ' $4'
+  fontSize: ' $4',
+  fontFamily: "$mono"
 })
 
 
