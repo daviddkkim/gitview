@@ -66,13 +66,13 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       value={{ light: "light-theme", dark: darkTheme.className }}
       defaultTheme="dark"
     >
-          {mounted ? (
-            getLayout(<Component {...pageProps} />)
-          ) : (
-            <div style={{ visibility: "hidden" }}>
-              <Component {...pageProps} />
-            </div>
-          )}
+      {mounted ? (
+        getLayout(<Component {...pageProps} />)
+      ) : (
+        <div style={{ visibility: "hidden" }}>
+          <Component {...pageProps} />
+        </div>
+      )}
     </ThemeProvider>
   );
 }

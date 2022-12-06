@@ -1,5 +1,5 @@
 import { styled } from "../stitches.config";
 
-export const Box = styled('div', {
-    display: 'flex'
-})
+export const Box = styled("div", {
+  display: "flex",
+});
