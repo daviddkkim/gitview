@@ -12,6 +12,17 @@ const Title = styled("h1", {
   fontFamily: "$mono",
 });
 
+const CardTitle = styled('h2', {
+  margin: "0",
+  fontSize: "$3"
+})
+
+const CardDescription = styled('span', {
+  margin: "0",
+  fontSize: "$3",
+  color: '$textSecondary'
+})
+
 type listUserReposResponseData =
   Endpoints["GET /repos/{owner}/{repo}/pulls"]["response"]["data"];
 
@@ -46,13 +57,33 @@ const Page: NextPageWithLayout = () => {
       }}
     >
       <Title>Repo</Title>
-      <Link href={"/"}>Back</Link>
-      <div>{data && data.map((item)=>{
+      <Link href={"/"} variant={"tertiary"}>Back</Link>
+      <Box css={{
+        gap: '$2',
+        flexDirection: 'column'
+      }}>{data && data.map((item) => {
         return (
-          <div> {item.body} </div>
+          <Box css={{
+            flexDirection: 'column',
+            gap: '$2',
+            border: '1px solid $separator',
+            padding: '$2',
+            borderRadius: "$1",
+            background: '$fg'
+          }}>
+            <Box css={{
+              gap: '$2'
+            }}>
+              <CardTitle>#{item.number}
+              </CardTitle>
+              <CardTitle>{item.title} </CardTitle>
+
+            </Box>
+            <CardDescription>{item.body}</CardDescription>
+          </Box >
         )
-      })}</div>
-    </Box>
+      })}</Box >
+    </Box >
   );
 };
 
