@@ -13,7 +13,7 @@ const Title = styled("h1", {
 });
 
 type listUserReposResponseData =
-  Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"];
+  Endpoints["GET /repos/{owner}/{repo}/pulls"]["response"]["data"];
 
 const Page: NextPageWithLayout = () => {
   const { query, isReady } = useRouter();
@@ -47,7 +47,11 @@ const Page: NextPageWithLayout = () => {
     >
       <Title>Repo</Title>
       <Link href={"/"}>Back</Link>
-      <div>{data && data.name}</div>
+      <div>{data && data.map((item)=>{
+        return (
+          <div> {item.body} </div>
+        )
+      })}</div>
     </Box>
   );
 };

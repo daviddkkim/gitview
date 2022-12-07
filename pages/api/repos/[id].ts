@@ -9,7 +9,7 @@ export default async function handler(
   const { id } = req.query;
 
   if (id && typeof id === "string") {
-    const response = await octokit.request("GET /repos/{owner}/{repo}", {
+    const response = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
       //hard code for now
       owner: "daviddkkim",
       repo: id,
