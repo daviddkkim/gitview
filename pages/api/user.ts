@@ -6,6 +6,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const response =await octokit.request('GET /user', {})
+  const response = await octokit.request("GET /user", {});
   res.status(200).json(response.data);
 }
