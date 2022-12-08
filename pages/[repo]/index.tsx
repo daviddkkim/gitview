@@ -63,26 +63,44 @@ const Page: NextPageWithLayout = () => {
         flexDirection: 'column'
       }}>{data && data.map((item) => {
         return (
-          <Box css={{
-            flexDirection: 'column',
-            gap: '$2',
-            border: '1px solid $separator',
-            padding: '$2',
-            borderRadius: "$1",
-            background: '$fg'
-          }}>
-            <Box css={{
-              gap: '$2'
+          <Link
+            href={'/' + repo + '/' + item.id}
+            css={{
+              flexDirection: 'column',
+              gap: '$2',
+              border: '1px solid $separator',
+              padding: '$2',
+              borderRadius: "$1",
+              background: '$fg',
+              width: '100%',
+              alignItems: 'flex-start',
+              height: 'auto'
             }}>
+            <Box css={{
+              gap: '$2',
+              alignItems: 'center'
+            }}>
+              <Box css={{
+                fontSize: '$1',
+                padding: '$1',
+                alignItems: 'center',
+                background: item.state === 'open' ? '$green8' : '$red8',
+                border: '1px solid $separator',
+                borderRadius: '$1'
+              }}>
+                {item.state}
+              </Box>
               <CardTitle>#{item.number}
               </CardTitle>
               <CardTitle>{item.title} </CardTitle>
-
             </Box>
-            <CardDescription>{item.body}</CardDescription>
-          </Box >
+            {item.body &&
+              <CardDescription>{item.body}</CardDescription>
+            }
+          </Link >
         )
       })}</Box >
+
     </Box >
   );
 };
