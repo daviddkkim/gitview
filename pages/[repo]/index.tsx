@@ -79,7 +79,7 @@ const Page: NextPageWithLayout = () => {
           >
             {data &&
               data.map((item) => {
-                if (item.state === 'open') {
+                if (item.state === "open") {
                   return (
                     <Link
                       href={"/" + repo + "/" + item.id}
@@ -124,14 +124,13 @@ const Page: NextPageWithLayout = () => {
                     </Link>
                   );
                 }
-              })
-            }
+              })}
           </Box>
         </Tabs.Content>
         <Tabs.Content value={"closed"}>
           {data &&
             data.map((item) => {
-              if (item.state === 'closed') {
+              if (item.state === "closed") {
                 return (
                   <Link
                     href={"/" + repo + "/" + item.id}
@@ -175,8 +174,7 @@ const Page: NextPageWithLayout = () => {
                   </Link>
                 );
               }
-            })
-          }
+            })}
         </Tabs.Content>
       </Tabs.Root>
     </Box>

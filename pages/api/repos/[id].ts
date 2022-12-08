@@ -9,11 +9,14 @@ export default async function handler(
   const { id } = req.query;
 
   if (id && typeof id === "string") {
-    const response = await octokit.request("GET /repos/{owner}/{repo}/pulls?state=all", {
-      //hard code for now
-      owner: "daviddkkim",
-      repo: id,
-    });
+    const response = await octokit.request(
+      "GET /repos/{owner}/{repo}/pulls?state=all",
+      {
+        //hard code for now
+        owner: "daviddkkim",
+        repo: id,
+      }
+    );
     res.status(200).json(response.data);
   } else {
     return res.status(400).end("invalid query");
