@@ -13,16 +13,16 @@ const Title = styled("h1", {
   fontFamily: "$mono",
 });
 
-const CardTitle = styled('h2', {
-  margin: "0",
-  fontSize: "$3"
-})
-
-const CardDescription = styled('span', {
+const CardTitle = styled("h2", {
   margin: "0",
   fontSize: "$3",
-  color: '$textSecondary'
-})
+});
+
+const CardDescription = styled("span", {
+  margin: "0",
+  fontSize: "$3",
+  color: "$textSecondary",
+});
 
 type listUserReposResponseData =
   Endpoints["GET /repos/{owner}/{repo}/pulls"]["response"]["data"];
@@ -58,74 +58,80 @@ const Page: NextPageWithLayout = () => {
       }}
     >
       <Title>Repo</Title>
-      <Link href={"/"} variant={"tertiary"}>Back</Link>
+      <Link href={"/"} variant={"tertiary"}>
+        Back
+      </Link>
       <Tabs.Root defaultValue="open">
         <Tabs.List>
-          <Tabs.Trigger asChild value={'open'}>
+          <Tabs.Trigger asChild value={"open"}>
             <Button variant={"tertiary"}>Open</Button>
           </Tabs.Trigger>
-          <Tabs.Trigger asChild value={'merged'}>
+          <Tabs.Trigger asChild value={"merged"}>
             <Button variant={"tertiary"}>Merged</Button>
           </Tabs.Trigger>
-          <Tabs.Trigger asChild value={'closed'}>
+          <Tabs.Trigger asChild value={"closed"}>
             <Button variant={"tertiary"}>Closed</Button>
           </Tabs.Trigger>
-
         </Tabs.List>
-        <Tabs.Content value={'open'}>
-          <Box css={{
-            gap: '$2',
-            flexDirection: 'column'
-          }}>{data && data.map((item) => {
-            return (
-              <Link
-                href={'/' + repo + '/' + item.id}
-                css={{
-                  flexDirection: 'column',
-                  gap: '$2',
-                  border: '1px solid $separator',
-                  padding: '$2',
-                  borderRadius: "$1",
-                  background: '$fg',
-                  width: '100%',
-                  alignItems: 'flex-start',
-                  height: 'auto'
-                }}>
-                <Box css={{
-                  gap: '$2',
-                  alignItems: 'center'
-                }}>
-                  <Box css={{
-                    fontSize: '$1',
-                    padding: '$1',
-                    alignItems: 'center',
-                    background: item.state === 'open' ? '$green8' : '$red8',
-                    border: '1px solid $separator',
-                    borderRadius: '$2'
-                  }}>
-                    {item.state}
-                  </Box>
-                  <CardTitle>#{item.number}
-                  </CardTitle>
-                  <CardTitle>{item.title} </CardTitle>
-                </Box>
-                {item.body &&
-                  <CardDescription>{item.body}</CardDescription>
-                }
-              </Link >
-            )
-          })}</Box >
-
+        <Tabs.Content value={"open"}>
+          <Box
+            css={{
+              gap: "$2",
+              flexDirection: "column",
+            }}
+          >
+            {data &&
+              data.map((item) => {
+                return (
+                  <Link
+                    href={"/" + repo + "/" + item.id}
+                    key={item.id}
+                    css={{
+                      flexDirection: "column",
+                      gap: "$2",
+                      border: "1px solid $separator",
+                      padding: "$2",
+                      borderRadius: "$1",
+                      background: "$fg",
+                      width: "100%",
+                      alignItems: "flex-start",
+                      height: "auto",
+                    }}
+                  >
+                    <Box
+                      css={{
+                        gap: "$2",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box
+                        css={{
+                          fontSize: "$1",
+                          padding: "$1",
+                          alignItems: "center",
+                          background:
+                            item.state === "open" ? "$green8" : "$red8",
+                          border: "1px solid $separator",
+                          borderRadius: "$2",
+                        }}
+                      >
+                        {item.state}
+                      </Box>
+                      <CardTitle>#{item.number}</CardTitle>
+                      <CardTitle>{item.title} </CardTitle>
+                    </Box>
+                    {item.body && (
+                      <CardDescription>{item.body}</CardDescription>
+                    )}
+                  </Link>
+                );
+              })}
+          </Box>
         </Tabs.Content>
-        <Tabs.Content value={'merged'}>
-          merged
-        </Tabs.Content>
-        <Tabs.Content value={'closed'}>
-          closed
-        </Tabs.Content>
+        <Tabs.Content value={"merged"}>merged</Tabs.Content>
+        <Tabs.Content value={"closed"}>closed</Tabs.Content>
       </Tabs.Root>
-
-    </Box >
+    </Box>
   );
 };
 
