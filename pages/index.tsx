@@ -14,18 +14,16 @@ const Title = styled("h1", {
 type listUserReposResponseData =
   Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"];
 
-type userResponseData =
-  Endpoints["GET /user"]["response"]["data"];
+type userResponseData = Endpoints["GET /user"]["response"]["data"];
 
 const Page: NextPageWithLayout = () => {
   const [data, setData] = React.useState<listUserReposResponseData[] | null>(
     null
   );
-  const [user, setUser] = React.useState<userResponseData | null>(null)
-
+  const [user, setUser] = React.useState<userResponseData | null>(null);
 
   useEffect(() => {
-    const userUrl = '/api/user'
+    const userUrl = "/api/user";
     fetch(userUrl, {
       method: "GET",
       headers: {

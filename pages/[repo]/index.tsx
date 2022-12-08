@@ -26,19 +26,18 @@ const CardDescription = styled("span", {
 
 type listUserReposResponseData =
   Endpoints["GET /repos/{owner}/{repo}/pulls"]["response"]["data"];
-type userResponseData =
-  Endpoints["GET /user"]["response"]["data"];
+type userResponseData = Endpoints["GET /user"]["response"]["data"];
 
 const Page: NextPageWithLayout = () => {
   const { query, isReady } = useRouter();
   const { repo } = query;
-  const [user, setUser] = React.useState<userResponseData | null>(null)
+  const [user, setUser] = React.useState<userResponseData | null>(null);
   const [data, setData] = React.useState<listUserReposResponseData | null>(
     null
   );
 
   useEffect(() => {
-    const userUrl = '/api/user'
+    const userUrl = "/api/user";
     fetch(userUrl, {
       method: "GET",
       headers: {
