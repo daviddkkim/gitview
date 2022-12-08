@@ -2,9 +2,10 @@ import { Endpoints } from "@octokit/types";
 import { useRouter } from "next/router";
 import React from "react";
 import { ReactElement, useEffect } from "react";
-import { Layout, Box, Link } from "../../components";
+import { Layout, Box, Link, Button } from "../../components";
 import { styled } from "../../stitches.config";
 import { NextPageWithLayout } from "../_app";
+import { Tabs } from "../../components";
 
 const Title = styled("h1", {
   margin: "0",
@@ -58,48 +59,71 @@ const Page: NextPageWithLayout = () => {
     >
       <Title>Repo</Title>
       <Link href={"/"} variant={"tertiary"}>Back</Link>
-      <Box css={{
-        gap: '$2',
-        flexDirection: 'column'
-      }}>{data && data.map((item) => {
-        return (
-          <Link
-            href={'/' + repo + '/' + item.id}
-            css={{
-              flexDirection: 'column',
-              gap: '$2',
-              border: '1px solid $separator',
-              padding: '$2',
-              borderRadius: "$1",
-              background: '$fg',
-              width: '100%',
-              alignItems: 'flex-start',
-              height: 'auto'
-            }}>
-            <Box css={{
-              gap: '$2',
-              alignItems: 'center'
-            }}>
-              <Box css={{
-                fontSize: '$1',
-                padding: '$1',
-                alignItems: 'center',
-                background: item.state === 'open' ? '$green8' : '$red8',
-                border: '1px solid $separator',
-                borderRadius: '$1'
-              }}>
-                {item.state}
-              </Box>
-              <CardTitle>#{item.number}
-              </CardTitle>
-              <CardTitle>{item.title} </CardTitle>
-            </Box>
-            {item.body &&
-              <CardDescription>{item.body}</CardDescription>
-            }
-          </Link >
-        )
-      })}</Box >
+      <Tabs.Root defaultValue="open">
+        <Tabs.List>
+          <Tabs.Trigger asChild value={'open'}>
+            <Button variant={"tertiary"}>Open</Button>
+          </Tabs.Trigger>
+          <Tabs.Trigger asChild value={'merged'}>
+            <Button variant={"tertiary"}>Merged</Button>
+          </Tabs.Trigger>
+          <Tabs.Trigger asChild value={'closed'}>
+            <Button variant={"tertiary"}>Closed</Button>
+          </Tabs.Trigger>
+
+        </Tabs.List>
+        <Tabs.Content value={'open'}>
+          <Box css={{
+            gap: '$2',
+            flexDirection: 'column'
+          }}>{data && data.map((item) => {
+            return (
+              <Link
+                href={'/' + repo + '/' + item.id}
+                css={{
+                  flexDirection: 'column',
+                  gap: '$2',
+                  border: '1px solid $separator',
+                  padding: '$2',
+                  borderRadius: "$1",
+                  background: '$fg',
+                  width: '100%',
+                  alignItems: 'flex-start',
+                  height: 'auto'
+                }}>
+                <Box css={{
+                  gap: '$2',
+                  alignItems: 'center'
+                }}>
+                  <Box css={{
+                    fontSize: '$1',
+                    padding: '$1',
+                    alignItems: 'center',
+                    background: item.state === 'open' ? '$green8' : '$red8',
+                    border: '1px solid $separator',
+                    borderRadius: '$2'
+                  }}>
+                    {item.state}
+                  </Box>
+                  <CardTitle>#{item.number}
+                  </CardTitle>
+                  <CardTitle>{item.title} </CardTitle>
+                </Box>
+                {item.body &&
+                  <CardDescription>{item.body}</CardDescription>
+                }
+              </Link >
+            )
+          })}</Box >
+
+        </Tabs.Content>
+        <Tabs.Content value={'merged'}>
+          merged
+        </Tabs.Content>
+        <Tabs.Content value={'closed'}>
+          closed
+        </Tabs.Content>
+      </Tabs.Root>
 
     </Box >
   );
