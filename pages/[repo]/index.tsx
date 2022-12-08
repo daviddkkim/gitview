@@ -66,9 +66,6 @@ const Page: NextPageWithLayout = () => {
           <Tabs.Trigger asChild value={"open"}>
             <Button variant={"tertiary"}>Open</Button>
           </Tabs.Trigger>
-          <Tabs.Trigger asChild value={"merged"}>
-            <Button variant={"tertiary"}>Merged</Button>
-          </Tabs.Trigger>
           <Tabs.Trigger asChild value={"closed"}>
             <Button variant={"tertiary"}>Closed</Button>
           </Tabs.Trigger>
@@ -82,6 +79,59 @@ const Page: NextPageWithLayout = () => {
           >
             {data &&
               data.map((item) => {
+                if (item.state === 'open') {
+                  return (
+                    <Link
+                      href={"/" + repo + "/" + item.id}
+                      key={item.id}
+                      css={{
+                        flexDirection: "column",
+                        gap: "$2",
+                        border: "1px solid $separator",
+                        padding: "$2",
+                        borderRadius: "$1",
+                        background: "$fg",
+                        width: "100%",
+                        alignItems: "flex-start",
+                        height: "auto",
+                      }}
+                    >
+                      <Box
+                        css={{
+                          gap: "$2",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Box
+                          css={{
+                            fontSize: "$1",
+                            padding: "$1",
+                            alignItems: "center",
+                            background:
+                              item.state === "open" ? "$green8" : "$red8",
+                            border: "1px solid $separator",
+                            borderRadius: "$2",
+                          }}
+                        >
+                          {item.state}
+                        </Box>
+                        <CardTitle>#{item.number}</CardTitle>
+                        <CardTitle>{item.title} </CardTitle>
+                      </Box>
+                      {item.body && (
+                        <CardDescription>{item.body}</CardDescription>
+                      )}
+                    </Link>
+                  );
+                }
+              })
+            }
+          </Box>
+        </Tabs.Content>
+        <Tabs.Content value={"closed"}>
+          {data &&
+            data.map((item) => {
+              if (item.state === 'closed') {
                 return (
                   <Link
                     href={"/" + repo + "/" + item.id}
@@ -109,8 +159,7 @@ const Page: NextPageWithLayout = () => {
                           fontSize: "$1",
                           padding: "$1",
                           alignItems: "center",
-                          background:
-                            item.state === "open" ? "$green8" : "$red8",
+                          background: "$red8",
                           border: "1px solid $separator",
                           borderRadius: "$2",
                         }}
@@ -125,11 +174,10 @@ const Page: NextPageWithLayout = () => {
                     )}
                   </Link>
                 );
-              })}
-          </Box>
+              }
+            })
+          }
         </Tabs.Content>
-        <Tabs.Content value={"merged"}>merged</Tabs.Content>
-        <Tabs.Content value={"closed"}>closed</Tabs.Content>
       </Tabs.Root>
     </Box>
   );
