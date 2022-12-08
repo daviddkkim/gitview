@@ -57,10 +57,17 @@ const Page: NextPageWithLayout = () => {
         flexDirection: "column",
       }}
     >
-      <Title>Repo</Title>
-      <Link href={"/"} variant={"tertiary"}>
-        Back
-      </Link>
+      <Box css={{
+        gap:'$2',
+        alignItems:'center'
+      }}>
+        <Link href={"/"} variant={"tertiary"}>
+          Gitview
+        </Link>
+        /
+        <Link href={"/"} variant={"tertiary"}>
+          {repo}
+        </Link></Box>
       <Tabs.Root defaultValue="open">
         <Tabs.List>
           <Tabs.Trigger asChild value={"open"}>
