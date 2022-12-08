@@ -14,12 +14,28 @@ const Title = styled("h1", {
 type listUserReposResponseData =
   Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"];
 
+type userResponseData =
+  Endpoints["GET /user"]["response"]["data"];
+
 const Page: NextPageWithLayout = () => {
   const [data, setData] = React.useState<listUserReposResponseData[] | null>(
     null
   );
+  const [user, setUser] = React.useState<userResponseData | null>(null)
+
 
   useEffect(() => {
+    const userUrl = '/api/user'
+    fetch(userUrl, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+      },
+    }).then(async (data) => {
+      const dataBody = (await data.json()) as userResponseData;
+      setUser(dataBody);
+    });
+
     const url = "/api/repos";
     fetch(url, {
       method: "GET",
@@ -40,7 +56,7 @@ const Page: NextPageWithLayout = () => {
         flexDirection: "column",
       }}
     >
-      <Title>Gitview</Title>
+      <Title>{user && user.login}</Title>
       <Box
         css={{
           gap: "$2",
