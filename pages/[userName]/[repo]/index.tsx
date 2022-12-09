@@ -2,10 +2,10 @@ import { Endpoints } from "@octokit/types";
 import { useRouter } from "next/router";
 import React from "react";
 import { ReactElement, useEffect } from "react";
-import { Layout, Box, Link, Button } from "../../components";
-import { styled } from "../../stitches.config";
-import { NextPageWithLayout } from "../_app";
-import { Tabs } from "../../components";
+import { Layout, Box, Link, Button } from "../../../components";
+import { styled } from "../../../stitches.config";
+import { NextPageWithLayout } from "../../_app";
+import { Tabs } from "../../../components";
 
 const Title = styled("h1", {
   margin: "0",
@@ -30,23 +30,12 @@ type userResponseData = Endpoints["GET /user"]["response"]["data"];
 
 const Page: NextPageWithLayout = () => {
   const { query, isReady } = useRouter();
-  const { repo } = query;
-  const [user, setUser] = React.useState<userResponseData | null>(null);
+  const { repo, userName } = query;
   const [data, setData] = React.useState<listUserReposResponseData | null>(
     null
   );
 
   useEffect(() => {
-    const userUrl = "/api/user";
-    fetch(userUrl, {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-      },
-    }).then(async (data) => {
-      const dataBody = (await data.json()) as userResponseData;
-      setUser(dataBody);
-    });
 
     if (isReady) {
       const url = "/api/repos/" + repo;
@@ -77,7 +66,7 @@ const Page: NextPageWithLayout = () => {
         }}
       >
         <Link href={"/"} variant={"tertiary"}>
-          {user && user.login}
+          {userName && userName}
         </Link>
         /
         <Link href={"/"} variant={"tertiary"}>
