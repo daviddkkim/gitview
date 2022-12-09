@@ -26,14 +26,19 @@ const CardDescription = styled("span", {
 
 type listUserReposResponseData =
   Endpoints["GET /repos/{owner}/{repo}/pulls"]["response"]["data"];
-type userResponseData = Endpoints["GET /user"]["response"]["data"];
+type IssuesListResponseData = Endpoints["GET /repos/{owner}/{repo}/issues"]["response"]["data"];
 
 const Page: NextPageWithLayout = () => {
   const { query, isReady } = useRouter();
   const { repo, userName } = query;
-  const [data, setData] = React.useState<listUserReposResponseData | null>(
+  const [prData, setPrData] = React.useState<listUserReposResponseData | null>(
     null
   );
+  const [issuesData, setIssuesData] = React.useState<IssuesListResponseData | null>(
+    null
+  );
+
+
 
   useEffect(() => {
 
@@ -46,7 +51,17 @@ const Page: NextPageWithLayout = () => {
         },
       }).then(async (data) => {
         const dataBody = (await data.json()) as listUserReposResponseData;
-        setData(dataBody);
+        setPrData(dataBody);
+      });
+      const issuesUrl = "/api/issues/" + repo;
+      fetch(issuesUrl, {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+        },
+      }).then(async (data) => {
+        const dataBody = (await data.json()) as IssuesListResponseData;
+        setIssuesData(dataBody);
       });
     }
   }, [isReady, repo]);
@@ -72,123 +87,253 @@ const Page: NextPageWithLayout = () => {
         <Link href={"/"} variant={"tertiary"}>
           {repo}
         </Link>
-      </Box>
-      <Tabs.Root defaultValue="open">
+      </Box><Tabs.Root defaultValue="pr">
         <Tabs.List>
-          <Tabs.Trigger asChild value={"open"}>
-            <Button variant={"tertiary"}>Open</Button>
+          <Tabs.Trigger asChild value={"pr"}>
+            <Button variant={"tertiary"}>Pull Requests</Button>
           </Tabs.Trigger>
-          <Tabs.Trigger asChild value={"closed"}>
-            <Button variant={"tertiary"}>Closed</Button>
+          <Tabs.Trigger asChild value={"issues"}>
+            <Button variant={"tertiary"}>Issues</Button>
           </Tabs.Trigger>
         </Tabs.List>
-        <Tabs.Content value={"open"}>
-          <Box
-            css={{
-              gap: "$2",
-              flexDirection: "column",
-            }}
-          >
-            {data &&
-              data.map((item) => {
-                if (item.state === "open") {
-                  return (
-                    <Link
-                      href={"/" + repo + "/" + item.id}
-                      key={item.id}
-                      css={{
-                        flexDirection: "column",
-                        gap: "$2",
-                        border: "1px solid $separator",
-                        padding: "$2",
-                        borderRadius: "$1",
-                        background: "$fg",
-                        width: "100%",
-                        alignItems: "flex-start",
-                        height: "auto",
-                      }}
-                    >
-                      <Box
+        <Tabs.Content value={"pr"}>
+          <Tabs.Root defaultValue="open">
+            <Tabs.List>
+              <Tabs.Trigger asChild value={"open"}>
+                <Button variant={"tertiary"}>Open</Button>
+              </Tabs.Trigger>
+              <Tabs.Trigger asChild value={"closed"}>
+                <Button variant={"tertiary"}>Closed</Button>
+              </Tabs.Trigger>
+            </Tabs.List>
+            <Tabs.Content value={"open"}>
+              <Box
+                css={{
+                  gap: "$2",
+                  flexDirection: "column",
+                }}
+              >
+                {prData &&
+                  prData.map((item) => {
+                    if (item.state === "open") {
+                      return (
+                        <Link
+                          href={"/" + repo + "/" + item.id}
+                          key={item.id}
+                          css={{
+                            flexDirection: "column",
+                            gap: "$2",
+                            border: "1px solid $separator",
+                            padding: "$2",
+                            borderRadius: "$1",
+                            background: "$fg",
+                            width: "100%",
+                            alignItems: "flex-start",
+                            height: "auto",
+                          }}
+                        >
+                          <Box
+                            css={{
+                              gap: "$2",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box
+                              css={{
+                                fontSize: "$1",
+                                padding: "$1",
+                                alignItems: "center",
+                                background:
+                                  item.state === "open" ? "$green8" : "$red8",
+                                border: "1px solid $separator",
+                                borderRadius: "$2",
+                              }}
+                            >
+                              {item.state}
+                            </Box>
+                            <CardTitle>#{item.number}</CardTitle>
+                            <CardTitle>{item.title} </CardTitle>
+                          </Box>
+                          {item.body && (
+                            <CardDescription>{item.body}</CardDescription>
+                          )}
+                        </Link>
+                      );
+                    }
+                  })}
+              </Box>
+            </Tabs.Content>
+            <Tabs.Content value={"closed"}>
+              {prData &&
+                prData.map((item) => {
+                  if (item.state === "closed") {
+                    return (
+                      <Link
+                        href={"/" + repo + "/" + item.id}
+                        key={item.id}
                         css={{
+                          flexDirection: "column",
                           gap: "$2",
-                          alignItems: "center",
+                          border: "1px solid $separator",
+                          padding: "$2",
+                          borderRadius: "$1",
+                          background: "$fg",
+                          width: "100%",
+                          alignItems: "flex-start",
+                          height: "auto",
                         }}
                       >
                         <Box
                           css={{
-                            fontSize: "$1",
-                            padding: "$1",
+                            gap: "$2",
                             alignItems: "center",
-                            background:
-                              item.state === "open" ? "$green8" : "$red8",
-                            border: "1px solid $separator",
-                            borderRadius: "$2",
                           }}
                         >
-                          {item.state}
+                          <Box
+                            css={{
+                              fontSize: "$1",
+                              padding: "$1",
+                              alignItems: "center",
+                              background: "$red8",
+                              border: "1px solid $separator",
+                              borderRadius: "$2",
+                            }}
+                          >
+                            {item.state}
+                          </Box>
+                          <CardTitle>#{item.number}</CardTitle>
+                          <CardTitle>{item.title} </CardTitle>
                         </Box>
-                        <CardTitle>#{item.number}</CardTitle>
-                        <CardTitle>{item.title} </CardTitle>
-                      </Box>
-                      {item.body && (
-                        <CardDescription>{item.body}</CardDescription>
-                      )}
-                    </Link>
-                  );
-                }
-              })}
-          </Box>
+                        {item.body && (
+                          <CardDescription>{item.body}</CardDescription>
+                        )}
+                      </Link>
+                    );
+                  }
+                })}
+            </Tabs.Content>
+          </Tabs.Root>
         </Tabs.Content>
-        <Tabs.Content value={"closed"}>
-          {data &&
-            data.map((item) => {
-              if (item.state === "closed") {
-                return (
-                  <Link
-                    href={"/" + repo + "/" + item.id}
-                    key={item.id}
-                    css={{
-                      flexDirection: "column",
-                      gap: "$2",
-                      border: "1px solid $separator",
-                      padding: "$2",
-                      borderRadius: "$1",
-                      background: "$fg",
-                      width: "100%",
-                      alignItems: "flex-start",
-                      height: "auto",
-                    }}
-                  >
-                    <Box
-                      css={{
-                        gap: "$2",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Box
+        <Tabs.Content value={"issues"}>
+          <Tabs.Root defaultValue="open">
+            <Tabs.List>
+              <Tabs.Trigger asChild value={"open"}>
+                <Button variant={"tertiary"}>Open</Button>
+              </Tabs.Trigger>
+              <Tabs.Trigger asChild value={"closed"}>
+                <Button variant={"tertiary"}>Closed</Button>
+              </Tabs.Trigger>
+            </Tabs.List>
+            <Tabs.Content value={"open"}>
+              <Box
+                css={{
+                  gap: "$2",
+                  flexDirection: "column",
+                }}
+              >
+                {issuesData &&
+                  issuesData.map((item) => {
+                    if (item.state === "open") {
+                      return (
+                        <Link
+                          href={"/" + repo + "/" + item.id}
+                          key={item.id}
+                          css={{
+                            flexDirection: "column",
+                            gap: "$2",
+                            border: "1px solid $separator",
+                            padding: "$2",
+                            borderRadius: "$1",
+                            background: "$fg",
+                            width: "100%",
+                            alignItems: "flex-start",
+                            height: "auto",
+                          }}
+                        >
+                          <Box
+                            css={{
+                              gap: "$2",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box
+                              css={{
+                                fontSize: "$1",
+                                padding: "$1",
+                                alignItems: "center",
+                                background:
+                                  item.state === "open" ? "$green8" : "$red8",
+                                border: "1px solid $separator",
+                                borderRadius: "$2",
+                              }}
+                            >
+                              {item.state}
+                            </Box>
+                            <CardTitle>#{item.number}</CardTitle>
+                            <CardTitle>{item.title} </CardTitle>
+                          </Box>
+                          {item.body && (
+                            <CardDescription>{item.body}</CardDescription>
+                          )}
+                        </Link>
+                      );
+                    }
+                  })}
+              </Box>
+            </Tabs.Content>
+            <Tabs.Content value={"closed"}>
+              {issuesData &&
+                issuesData.map((item) => {
+                  if (item.state === "closed") {
+                    return (
+                      <Link
+                        href={"/" + repo + "/" + item.id}
+                        key={item.id}
                         css={{
-                          fontSize: "$1",
-                          padding: "$1",
-                          alignItems: "center",
-                          background: "$red8",
+                          flexDirection: "column",
+                          gap: "$2",
                           border: "1px solid $separator",
-                          borderRadius: "$2",
+                          padding: "$2",
+                          borderRadius: "$1",
+                          background: "$fg",
+                          width: "100%",
+                          alignItems: "flex-start",
+                          height: "auto",
                         }}
                       >
-                        {item.state}
-                      </Box>
-                      <CardTitle>#{item.number}</CardTitle>
-                      <CardTitle>{item.title} </CardTitle>
-                    </Box>
-                    {item.body && (
-                      <CardDescription>{item.body}</CardDescription>
-                    )}
-                  </Link>
-                );
-              }
-            })}
+                        <Box
+                          css={{
+                            gap: "$2",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Box
+                            css={{
+                              fontSize: "$1",
+                              padding: "$1",
+                              alignItems: "center",
+                              background: "$red8",
+                              border: "1px solid $separator",
+                              borderRadius: "$2",
+                            }}
+                          >
+                            {item.state}
+                          </Box>
+                          <CardTitle>#{item.number}</CardTitle>
+                          <CardTitle>{item.title} </CardTitle>
+                        </Box>
+                        {item.body && (
+                          <CardDescription>{item.body}</CardDescription>
+                        )}
+                      </Link>
+                    );
+                  }
+                })}
+            </Tabs.Content>
+          </Tabs.Root>
         </Tabs.Content>
       </Tabs.Root>
+
     </Box>
   );
 };
