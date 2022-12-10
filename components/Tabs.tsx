@@ -2,17 +2,23 @@ import React from "react";
 import * as TabsPrimitives from "@radix-ui/react-tabs";
 import { styled } from "../stitches.config";
 
-const Root = TabsPrimitives.Root;
+const Root = styled(TabsPrimitives.Root);
 
 const List = styled(TabsPrimitives.List, {
   display: "flex",
+  position: "relative",
   gap: "$1",
   marginBottom: "$4",
+  borderBottom: '1px solid $separator',
+
 });
 
 const Trigger = styled(TabsPrimitives.Trigger, {
   position: "relative",
   marginBottom: "$2",
+  "&:first-child": {
+    marginLeft: '$4'
+  },
   "&:after": {
     content: " ",
     position: "absolute",
@@ -30,7 +36,7 @@ const Trigger = styled(TabsPrimitives.Trigger, {
       position: "absolute",
       display: "flex",
       height: "1px",
-      bottom: "-$2",
+      bottom: "-10px",
       left: 0,
       right: 0,
       backgroundColor: "white",

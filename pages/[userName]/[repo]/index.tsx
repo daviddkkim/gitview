@@ -7,12 +7,6 @@ import { styled } from "../../../stitches.config";
 import { NextPageWithLayout } from "../../_app";
 import { Tabs } from "../../../components";
 
-const Title = styled("h1", {
-  margin: "0",
-  fontSize: " $4",
-  fontFamily: "$mono",
-});
-
 const CardTitle = styled("h2", {
   margin: "0",
   fontSize: "$3",
@@ -84,11 +78,14 @@ const Page: NextPageWithLayout = () => {
           {userName && userName}
         </Link>
         /
-        <Link href={"/"} variant={"tertiary"}>
+        <Button disabled variant={"tertiary"}>
           {repo}
-        </Link>
+        </Button>
       </Box><Tabs.Root defaultValue="pr">
-        <Tabs.List>
+        <Tabs.List css={{
+          marginLeft: '-$4',
+          marginRight: '-$4'
+        }}>
           <Tabs.Trigger asChild value={"pr"}>
             <Button variant={"tertiary"}>Pull Requests</Button>
           </Tabs.Trigger>
@@ -97,8 +94,15 @@ const Page: NextPageWithLayout = () => {
           </Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value={"pr"}>
-          <Tabs.Root defaultValue="open">
-            <Tabs.List>
+          <Tabs.Root defaultValue="open" css={{
+            border: '1px solid $separator',
+            backgroundColor: '$bgSecondary',
+            borderRadius: '$1'
+          }}>
+            <Tabs.List css={{
+              borderBottom: '1px solid $separator',
+              paddingTop: '$2'
+            }}>
               <Tabs.Trigger asChild value={"open"}>
                 <Button variant={"tertiary"}>Open</Button>
               </Tabs.Trigger>
@@ -111,6 +115,7 @@ const Page: NextPageWithLayout = () => {
                 css={{
                   gap: "$2",
                   flexDirection: "column",
+                  padding: '0  $4 $4 $4'
                 }}
               >
                 {prData &&
@@ -164,6 +169,13 @@ const Page: NextPageWithLayout = () => {
               </Box>
             </Tabs.Content>
             <Tabs.Content value={"closed"}>
+            <Box
+                css={{
+                  gap: "$2",
+                  flexDirection: "column",
+                  padding: '0  $4 $4 $4'
+                }}
+              >
               {prData &&
                 prData.map((item) => {
                   if (item.state === "closed") {
@@ -211,12 +223,20 @@ const Page: NextPageWithLayout = () => {
                     );
                   }
                 })}
+                </Box>
             </Tabs.Content>
           </Tabs.Root>
         </Tabs.Content>
         <Tabs.Content value={"issues"}>
-          <Tabs.Root defaultValue="open">
-            <Tabs.List>
+        <Tabs.Root defaultValue="open" css={{
+            border: '1px solid $separator',
+            backgroundColor: '$bgSecondary',
+            borderRadius: '$1'
+          }}>
+            <Tabs.List css={{
+              borderBottom: '1px solid $separator',
+              paddingTop: '$2'
+            }}>
               <Tabs.Trigger asChild value={"open"}>
                 <Button variant={"tertiary"}>Open</Button>
               </Tabs.Trigger>
@@ -229,6 +249,7 @@ const Page: NextPageWithLayout = () => {
                 css={{
                   gap: "$2",
                   flexDirection: "column",
+                  padding: '0  $4 $4 $4'
                 }}
               >
                 {issuesData &&
@@ -282,6 +303,13 @@ const Page: NextPageWithLayout = () => {
               </Box>
             </Tabs.Content>
             <Tabs.Content value={"closed"}>
+            <Box
+                css={{
+                  gap: "$2",
+                  flexDirection: "column",
+                  padding: '0  $4 $4 $4'
+                }}
+              >
               {issuesData &&
                 issuesData.map((item) => {
                   if (item.state === "closed") {
@@ -329,6 +357,7 @@ const Page: NextPageWithLayout = () => {
                     );
                   }
                 })}
+                </Box>
             </Tabs.Content>
           </Tabs.Root>
         </Tabs.Content>

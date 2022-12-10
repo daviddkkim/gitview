@@ -1,7 +1,7 @@
 import { Endpoints } from "@octokit/types";
 import React from "react";
 import { ReactElement, useEffect } from "react";
-import { Layout, Box, Link } from "../components";
+import { Layout, Box, Link, Button } from "../components";
 import { styled } from "../stitches.config";
 import { NextPageWithLayout } from "./_app";
 
@@ -56,7 +56,7 @@ const Page: NextPageWithLayout = () => {
         flexDirection: "column",
       }}
     >
-      <Link href="/" variant={'tertiary'}>{user.login}</Link>
+      <Button variant={'tertiary'} disabled>{user.login}</Button>
       <Box
         css={{
           gap: "$2",

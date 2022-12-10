@@ -23,7 +23,7 @@ export const Button = styled("button", {
         backgroundColor: "$fgAccent",
         borderColor: "$fgAccentBorder",
         color: "$fgAccentText",
-        "&:hover": {
+        "&:not([disabled]):hover": {
           backgroundColor: "$fgAccentHover",
           borderColor: "$fgAccentBorderHover",
         },
@@ -32,7 +32,7 @@ export const Button = styled("button", {
         backgroundColor: "$fg",
         borderColor: "$fgBorder",
         color: "$fgText",
-        "&:hover": {
+        "&:not([disabled]):hover": {
           backgroundColor: "$fgHover",
           borderColor: "$fgBorderHover",
         },
@@ -43,7 +43,7 @@ export const Button = styled("button", {
       tertiary: {
         backgroundColor: "transparent",
         color: "$textPrimary",
-        "&:hover": {
+        "&:not([disabled]):hover": {
           backgroundColor: "$fgHover",
         },
         svg: {
