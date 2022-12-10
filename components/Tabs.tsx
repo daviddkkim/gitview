@@ -9,15 +9,14 @@ const List = styled(TabsPrimitives.List, {
   position: "relative",
   gap: "$1",
   marginBottom: "$4",
-  borderBottom: '1px solid $separator',
-
+  borderBottom: "1px solid $separator",
 });
 
 const Trigger = styled(TabsPrimitives.Trigger, {
   position: "relative",
   marginBottom: "$2",
   "&:first-child": {
-    marginLeft: '$4'
+    marginLeft: "$4",
   },
   "&:after": {
     content: " ",

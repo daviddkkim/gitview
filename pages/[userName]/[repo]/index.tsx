@@ -20,7 +20,8 @@ const CardDescription = styled("span", {
 
 type listUserReposResponseData =
   Endpoints["GET /repos/{owner}/{repo}/pulls"]["response"]["data"];
-type IssuesListResponseData = Endpoints["GET /repos/{owner}/{repo}/issues"]["response"]["data"];
+type IssuesListResponseData =
+  Endpoints["GET /repos/{owner}/{repo}/issues"]["response"]["data"];
 
 const Page: NextPageWithLayout = () => {
   const { query, isReady } = useRouter();
@@ -28,14 +29,10 @@ const Page: NextPageWithLayout = () => {
   const [prData, setPrData] = React.useState<listUserReposResponseData | null>(
     null
   );
-  const [issuesData, setIssuesData] = React.useState<IssuesListResponseData | null>(
-    null
-  );
-
-
+  const [issuesData, setIssuesData] =
+    React.useState<IssuesListResponseData | null>(null);
 
   useEffect(() => {
-
     if (isReady) {
       const url = "/api/repos/" + repo;
       fetch(url, {
@@ -81,11 +78,14 @@ const Page: NextPageWithLayout = () => {
         <Button disabled variant={"tertiary"}>
           {repo}
         </Button>
-      </Box><Tabs.Root defaultValue="pr">
-        <Tabs.List css={{
-          marginLeft: '-$4',
-          marginRight: '-$4'
-        }}>
+      </Box>
+      <Tabs.Root defaultValue="pr">
+        <Tabs.List
+          css={{
+            marginLeft: "-$4",
+            marginRight: "-$4",
+          }}
+        >
           <Tabs.Trigger asChild value={"pr"}>
             <Button variant={"tertiary"}>Pull Requests</Button>
           </Tabs.Trigger>
@@ -94,15 +94,20 @@ const Page: NextPageWithLayout = () => {
           </Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value={"pr"}>
-          <Tabs.Root defaultValue="open" css={{
-            border: '1px solid $separator',
-            backgroundColor: '$bgSecondary',
-            borderRadius: '$1'
-          }}>
-            <Tabs.List css={{
-              borderBottom: '1px solid $separator',
-              paddingTop: '$2'
-            }}>
+          <Tabs.Root
+            defaultValue="open"
+            css={{
+              border: "1px solid $separator",
+              backgroundColor: "$bgSecondary",
+              borderRadius: "$1",
+            }}
+          >
+            <Tabs.List
+              css={{
+                borderBottom: "1px solid $separator",
+                paddingTop: "$2",
+              }}
+            >
               <Tabs.Trigger asChild value={"open"}>
                 <Button variant={"tertiary"}>Open</Button>
               </Tabs.Trigger>
@@ -115,7 +120,7 @@ const Page: NextPageWithLayout = () => {
                 css={{
                   gap: "$2",
                   flexDirection: "column",
-                  padding: '0  $4 $4 $4'
+                  padding: "0  $4 $4 $4",
                 }}
               >
                 {prData &&
@@ -169,74 +174,79 @@ const Page: NextPageWithLayout = () => {
               </Box>
             </Tabs.Content>
             <Tabs.Content value={"closed"}>
-            <Box
+              <Box
                 css={{
                   gap: "$2",
                   flexDirection: "column",
-                  padding: '0  $4 $4 $4'
+                  padding: "0  $4 $4 $4",
                 }}
               >
-              {prData &&
-                prData.map((item) => {
-                  if (item.state === "closed") {
-                    return (
-                      <Link
-                        href={"/" + repo + "/" + item.id}
-                        key={item.id}
-                        css={{
-                          flexDirection: "column",
-                          gap: "$2",
-                          border: "1px solid $separator",
-                          padding: "$2",
-                          borderRadius: "$1",
-                          background: "$fg",
-                          width: "100%",
-                          alignItems: "flex-start",
-                          height: "auto",
-                        }}
-                      >
-                        <Box
+                {prData &&
+                  prData.map((item) => {
+                    if (item.state === "closed") {
+                      return (
+                        <Link
+                          href={"/" + repo + "/" + item.id}
+                          key={item.id}
                           css={{
+                            flexDirection: "column",
                             gap: "$2",
-                            alignItems: "center",
+                            border: "1px solid $separator",
+                            padding: "$2",
+                            borderRadius: "$1",
+                            background: "$fg",
+                            width: "100%",
+                            alignItems: "flex-start",
+                            height: "auto",
                           }}
                         >
                           <Box
                             css={{
-                              fontSize: "$1",
-                              padding: "$1",
+                              gap: "$2",
                               alignItems: "center",
-                              background: "$red8",
-                              border: "1px solid $separator",
-                              borderRadius: "$2",
                             }}
                           >
-                            {item.state}
+                            <Box
+                              css={{
+                                fontSize: "$1",
+                                padding: "$1",
+                                alignItems: "center",
+                                background: "$red8",
+                                border: "1px solid $separator",
+                                borderRadius: "$2",
+                              }}
+                            >
+                              {item.state}
+                            </Box>
+                            <CardTitle>#{item.number}</CardTitle>
+                            <CardTitle>{item.title} </CardTitle>
                           </Box>
-                          <CardTitle>#{item.number}</CardTitle>
-                          <CardTitle>{item.title} </CardTitle>
-                        </Box>
-                        {item.body && (
-                          <CardDescription>{item.body}</CardDescription>
-                        )}
-                      </Link>
-                    );
-                  }
-                })}
-                </Box>
+                          {item.body && (
+                            <CardDescription>{item.body}</CardDescription>
+                          )}
+                        </Link>
+                      );
+                    }
+                  })}
+              </Box>
             </Tabs.Content>
           </Tabs.Root>
         </Tabs.Content>
         <Tabs.Content value={"issues"}>
-        <Tabs.Root defaultValue="open" css={{
-            border: '1px solid $separator',
-            backgroundColor: '$bgSecondary',
-            borderRadius: '$1'
-          }}>
-            <Tabs.List css={{
-              borderBottom: '1px solid $separator',
-              paddingTop: '$2'
-            }}>
+          <Tabs.Root
+            defaultValue="open"
+            css={{
+              border: "1px solid $separator",
+              backgroundColor: "$bgSecondary",
+              borderRadius: "$1",
+            }}
+          >
+            <Tabs.List
+              css={{
+                borderBottom: "1px solid $separator",
+                paddingTop: "$2",
+              }}
+            >
               <Tabs.Trigger asChild value={"open"}>
                 <Button variant={"tertiary"}>Open</Button>
               </Tabs.Trigger>
@@ -249,7 +259,7 @@ const Page: NextPageWithLayout = () => {
                 css={{
                   gap: "$2",
                   flexDirection: "column",
-                  padding: '0  $4 $4 $4'
+                  padding: "0  $4 $4 $4",
                 }}
               >
                 {issuesData &&
@@ -303,66 +313,65 @@ const Page: NextPageWithLayout = () => {
               </Box>
             </Tabs.Content>
             <Tabs.Content value={"closed"}>
-            <Box
+              <Box
                 css={{
                   gap: "$2",
                   flexDirection: "column",
-                  padding: '0  $4 $4 $4'
+                  padding: "0  $4 $4 $4",
                 }}
               >
-              {issuesData &&
-                issuesData.map((item) => {
-                  if (item.state === "closed") {
-                    return (
-                      <Link
-                        href={"/" + repo + "/" + item.id}
-                        key={item.id}
-                        css={{
-                          flexDirection: "column",
-                          gap: "$2",
-                          border: "1px solid $separator",
-                          padding: "$2",
-                          borderRadius: "$1",
-                          background: "$fg",
-                          width: "100%",
-                          alignItems: "flex-start",
-                          height: "auto",
-                        }}
-                      >
-                        <Box
+                {issuesData &&
+                  issuesData.map((item) => {
+                    if (item.state === "closed") {
+                      return (
+                        <Link
+                          href={"/" + repo + "/" + item.id}
+                          key={item.id}
                           css={{
+                            flexDirection: "column",
                             gap: "$2",
-                            alignItems: "center",
+                            border: "1px solid $separator",
+                            padding: "$2",
+                            borderRadius: "$1",
+                            background: "$fg",
+                            width: "100%",
+                            alignItems: "flex-start",
+                            height: "auto",
                           }}
                         >
                           <Box
                             css={{
-                              fontSize: "$1",
-                              padding: "$1",
+                              gap: "$2",
                               alignItems: "center",
-                              background: "$red8",
-                              border: "1px solid $separator",
-                              borderRadius: "$2",
                             }}
                           >
-                            {item.state}
+                            <Box
+                              css={{
+                                fontSize: "$1",
+                                padding: "$1",
+                                alignItems: "center",
+                                background: "$red8",
+                                border: "1px solid $separator",
+                                borderRadius: "$2",
+                              }}
+                            >
+                              {item.state}
+                            </Box>
+                            <CardTitle>#{item.number}</CardTitle>
+                            <CardTitle>{item.title} </CardTitle>
                           </Box>
-                          <CardTitle>#{item.number}</CardTitle>
-                          <CardTitle>{item.title} </CardTitle>
-                        </Box>
-                        {item.body && (
-                          <CardDescription>{item.body}</CardDescription>
-                        )}
-                      </Link>
-                    );
-                  }
-                })}
-                </Box>
+                          {item.body && (
+                            <CardDescription>{item.body}</CardDescription>
+                          )}
+                        </Link>
+                      );
+                    }
+                  })}
+              </Box>
             </Tabs.Content>
           </Tabs.Root>
         </Tabs.Content>
       </Tabs.Root>
-
     </Box>
   );
 };

@@ -46,7 +46,7 @@ const Page: NextPageWithLayout = () => {
     });
   }, []);
 
-  if(!user) return <div> loading... </div>
+  if (!user) return <div> loading... </div>;
 
   return (
     <Box
@@ -56,7 +56,9 @@ const Page: NextPageWithLayout = () => {
         flexDirection: "column",
       }}
     >
-      <Button variant={'tertiary'} disabled>{user.login}</Button>
+      <Button variant={"tertiary"} disabled>
+        {user.login}
+      </Button>
       <Box
         css={{
           gap: "$2",
@@ -68,7 +70,7 @@ const Page: NextPageWithLayout = () => {
         {data ? (
           data.map((repo) => {
             return (
-              <Link key={repo.id} href={"/"+ user.login + "/" + repo.name}>
+              <Link key={repo.id} href={"/" + user.login + "/" + repo.name}>
                 {repo.name}
               </Link>
             );
