@@ -4,12 +4,19 @@ import { ReactElement, useEffect } from "react";
 import { Layout, Box, Link, Button } from "../components";
 import { styled } from "../stitches.config";
 import { NextPageWithLayout } from "./_app";
+import { Table } from "../components";
+import { getUpdatedTime } from "../utils/time";
 
 const Title = styled("h1", {
   margin: "0",
   fontSize: " $4",
   fontFamily: "$mono",
 });
+
+const SubText = styled("span", {
+  color: '$textSecondary',
+  fontSize: '$2'
+})
 
 type listUserReposResponseData =
   Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"];
@@ -67,17 +74,39 @@ const Page: NextPageWithLayout = () => {
           flexWrap: "wrap",
         }}
       >
-        {data ? (
-          data.map((repo) => {
-            return (
-              <Link key={repo.id} href={"/" + user.login + "/" + repo.name}>
-                {repo.name}
-              </Link>
-            );
-          })
-        ) : (
-          <div> loading...</div>
-        )}
+        <Table.Root>
+          <Table.HeaderRow>
+            <Table.HeaderCell>
+              Name
+            </Table.HeaderCell>
+            <Table.HeaderCell>
+              Description
+            </Table.HeaderCell>
+            <Table.HeaderCell>
+              Upated at
+            </Table.HeaderCell>
+          </Table.HeaderRow>
+          {data && (
+            data.map((repo) => {
+              return (
+                <Table.LinkBodyRow key={repo.id} href={"/" + user.login + "/" + repo.name}>
+                  <Table.BodyCell>
+                    {repo.name} <SubText>{repo.private ? 'private' : "public"}</SubText>
+                  </Table.BodyCell>
+                  <Table.BodyCell>
+                    <SubText css={{
+                      fontSize:'$3'
+                    }}>
+                      {repo.description}
+                    </SubText>
+                  </Table.BodyCell>
+                  <Table.BodyCell>
+                    {getUpdatedTime((Date.parse(repo.pushed_at)))}
+                  </Table.BodyCell>
+                </Table.LinkBodyRow>
+              );
+            }))}
+        </Table.Root>
       </Box>
     </Box>
   );
