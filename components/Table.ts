@@ -14,6 +14,7 @@ const HeaderRow = styled("div", {
 });
 
 const LinkBodyRow = styled(Link, {
+    cursor: 'default',
     height: "$7",
     display: "table-row",
     outline: "none",

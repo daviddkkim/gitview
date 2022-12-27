@@ -71,7 +71,9 @@ const Page: NextPageWithLayout = () => {
           alignItems: "center",
         }}
       >
-        <Link href={"/"} variant={"tertiary"}>
+        <Link href={"/"} variant={"tertiary"} css={{
+          color: '$textSecondary'
+        }}>
           {userName && userName}
         </Link>
         /
