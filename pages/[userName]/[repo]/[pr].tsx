@@ -8,57 +8,56 @@ import { NextPageWithLayout } from "../../_app";
 import { Tabs } from "../../../components";
 
 const CardTitle = styled("h2", {
-    margin: "0",
-    fontSize: "$3",
+  margin: "0",
+  fontSize: "$3",
 });
 
 const CardDescription = styled("span", {
-    margin: "0",
-    fontSize: "$3",
-    color: "$textSecondary",
+  margin: "0",
+  fontSize: "$3",
+  color: "$textSecondary",
 });
 
 type pullsDetailsResponseData =
-    Endpoints["GET /repos/{owner}/{repo}/pulls/{pull_number}"]["response"]["data"];
+  Endpoints["GET /repos/{owner}/{repo}/pulls/{pull_number}"]["response"]["data"];
 
 const Page: NextPageWithLayout = () => {
-    const { query, isReady } = useRouter();
-    const { repo, pr } = query;
-    const [prData, setPrData] = React.useState<pullsDetailsResponseData | null>(
-        null
-    );
+  const { query, isReady } = useRouter();
+  const { repo, pr } = query;
+  const [prData, setPrData] = React.useState<pullsDetailsResponseData | null>(
+    null
+  );
 
+  useEffect(() => {
+    if (isReady) {
+      const url = "/api/pulls/" + repo + "/" + pr;
+      fetch(url, {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+        },
+      }).then(async (data) => {
+        const dataBody = (await data.json()) as pullsDetailsResponseData;
+        setPrData(dataBody);
+      });
+    }
+  }, [isReady, repo, pr]);
 
-    useEffect(() => {
-        if (isReady) {
-            const url = "/api/pulls/" + repo + "/" + pr;
-            fetch(url, {
-                method: "GET",
-                headers: {
-                    accept: "application/json",
-                },
-            }).then(async (data) => {
-                const dataBody = (await data.json()) as pullsDetailsResponseData;
-                setPrData(dataBody);
-            });
-        }
-    }, [isReady, repo]);
-
-    return (
-        <Box
-            css={{
-                padding: "$4",
-                gap: "$4",
-                flexDirection: "column",
-            }}
-        >
-            {prData && prData.url}
-        </Box>
-    );
+  return (
+    <Box
+      css={{
+        padding: "$4",
+        gap: "$4",
+        flexDirection: "column",
+      }}
+    >
+      {prData && prData.url}
+    </Box>
+  );
 };
 
 Page.getLayout = function getLayout(page: ReactElement) {
-    return <Layout>{page}</Layout>;
+  return <Layout>{page}</Layout>;
 };
 
 export default Page;

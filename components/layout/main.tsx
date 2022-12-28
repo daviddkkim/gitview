@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 const StyledMain = styled("main", {
   display: "flex",
-  flexDirection: 'column'
+  flexDirection: "column",
 });
 
 const PageSection = styled("section", {
@@ -18,10 +18,9 @@ const PageSection = styled("section", {
 type userResponseData = Endpoints["GET /user"]["response"]["data"];
 
 export default function Layout({ children }: { children: ReactElement }) {
-
   const { query } = useRouter();
 
-  const [user, setUser] = useState<userResponseData | null>(null)
+  const [user, setUser] = useState<userResponseData | null>(null);
   useEffect(() => {
     const userUrl = "/api/user";
     fetch(userUrl, {
@@ -32,8 +31,8 @@ export default function Layout({ children }: { children: ReactElement }) {
     }).then(async (data) => {
       const dataBody = (await data.json()) as userResponseData;
       setUser(dataBody);
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <>

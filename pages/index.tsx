@@ -15,19 +15,18 @@ const Title = styled("h1", {
 });
 
 const SubText = styled("span", {
-  color: '$textSecondary',
-  fontSize: '$3'
-})
+  color: "$textSecondary",
+  fontSize: "$3",
+});
 
 const MainText = styled("h2", {
   margin: 0,
   fontWeight: 500,
-  fontSize: '$3'
-})
+  fontSize: "$3",
+});
 
 type listUserReposResponseData =
   Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"];
-
 
 const Page: NextPageWithLayout = () => {
   const [data, setData] = React.useState<listUserReposResponseData[] | null>(
@@ -35,7 +34,6 @@ const Page: NextPageWithLayout = () => {
   );
 
   useEffect(() => {
-
     const url = "/api/repos";
     fetch(url, {
       method: "GET",
@@ -67,49 +65,55 @@ const Page: NextPageWithLayout = () => {
         }}
       >
         <Table.Root>
-          {data && (
+          {data &&
             data.map((repo) => {
               return (
-                <Table.LinkBodyRow key={repo.id} href={"/" + repo.owner.login + "/" + repo.name}>
-                  <Table.BodyCell css={{
-                    flexDirection: 'column',
-                    gap: '$2',
-                    alignItems: 'flex-start'
-                  }}>
-                    <Box css={{
-                      gap: '$1',
-                      alignItems: ' center'
-                    }}>
-                      <MainText>
-                        {repo.name}
-                      </MainText>
-                      <SubText css={{
-                        fontSize: '$3'
-                      }}>{repo.private ? 'private' : "public"}</SubText>
-                    </Box>
-                    <Box>
-                      <SubText>
-                        {repo.description ?? '-'}
+                <Table.LinkBodyRow
+                  key={repo.id}
+                  href={"/" + repo.owner.login + "/" + repo.name}
+                >
+                  <Table.BodyCell
+                    css={{
+                      flexDirection: "column",
+                      gap: "$2",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <Box
+                      css={{
+                        gap: "$1",
+                        alignItems: " center",
+                      }}
+                    >
+                      <MainText>{repo.name}</MainText>
+                      <SubText
+                        css={{
+                          fontSize: "$3",
+                        }}
+                      >
+                        {repo.private ? "private" : "public"}
                       </SubText>
                     </Box>
+                    <Box>
+                      <SubText>{repo.description ?? "-"}</SubText>
+                    </Box>
                   </Table.BodyCell>
-                  <Table.BodyCell css={{
-                    justifyContent: 'flex-end',
-                    gap: '$2',
-                    alignItems: 'flex-end',
-                    flexDirection: 'column'
-
-                  }}>
+                  <Table.BodyCell
+                    css={{
+                      justifyContent: "flex-end",
+                      gap: "$2",
+                      alignItems: "flex-end",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <SubText>{repo.fork ? "Forked" : ""}</SubText>
                     <SubText>
-                      {repo.fork ? "Forked" : ''}
-                    </SubText>
-                    <SubText>
-                      {getUpdatedTime((Date.parse(repo.pushed_at)))}
+                      {getUpdatedTime(Date.parse(repo.pushed_at))}
                     </SubText>
                   </Table.BodyCell>
                 </Table.LinkBodyRow>
               );
-            }))}
+            })}
         </Table.Root>
       </Box>
     </Box>

@@ -14,7 +14,7 @@ export default async function handler(
         //hard code for now
         owner: "daviddkkim",
         repo: slug[0],
-        pull_number: slug[1]
+        pull_number: slug[1],
       }
     );
     res.status(200).json(response.data);
