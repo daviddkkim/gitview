@@ -1,7 +1,7 @@
 import { Endpoints } from "@octokit/types";
 import React from "react";
 import { ReactElement, useEffect } from "react";
-import { Layout, Box, Link, Button } from "../components";
+import { Layout, Box, Link, Button, Tabs } from "../components";
 import { styled } from "../stitches.config";
 import { NextPageWithLayout } from "./_app";
 import { Table } from "../components";
@@ -56,66 +56,82 @@ const Page: NextPageWithLayout = () => {
         flexDirection: "column",
       }}
     >
-      <Box
+      <Tabs.Root
+        defaultValue="pulls"
         css={{
-          gap: "$2",
-          maxWidth: "100%",
-          flexDirection: "row",
-          flexWrap: "wrap",
+          borderRadius: "$1",
         }}
       >
-        <Table.Root>
-          {data &&
-            data.map((repo) => {
-              return (
-                <Table.LinkBodyRow
-                  key={repo.id}
-                  href={"/" + repo.owner.login + "/" + repo.name}
-                >
-                  <Table.BodyCell
-                    css={{
-                      flexDirection: "column",
-                      gap: "$2",
-                      alignItems: "flex-start",
-                    }}
+        <Tabs.List
+          css={{
+            marginLeft: "-$4",
+            marginRight: "-$4",
+          }}
+        >
+          <Tabs.Trigger asChild value={"pulls"}>
+            <Button variant={"tertiary"}>Pulls</Button>
+          </Tabs.Trigger>
+          <Tabs.Trigger asChild value={"repos"}>
+            <Button variant={"tertiary"}>Repos</Button>
+          </Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value={"pulls"}>
+          hello
+        </Tabs.Content>
+        <Tabs.Content value={"repos"}>
+          <Table.Root>
+            {data &&
+              data.map((repo) => {
+                return (
+                  <Table.LinkBodyRow
+                    key={repo.id}
+                    href={"/" + repo.owner.login + "/" + repo.name}
                   >
-                    <Box
+                    <Table.BodyCell
                       css={{
-                        gap: "$1",
-                        alignItems: " center",
+                        flexDirection: "column",
+                        gap: "$2",
+                        alignItems: "flex-start",
                       }}
                     >
-                      <MainText>{repo.name}</MainText>
-                      <SubText
+                      <Box
                         css={{
-                          fontSize: "$3",
+                          gap: "$1",
+                          alignItems: " center",
                         }}
                       >
-                        {repo.private ? "private" : "public"}
+                        <MainText>{repo.name}</MainText>
+                        <SubText
+                          css={{
+                            fontSize: "$3",
+                          }}
+                        >
+                          {repo.private ? "private" : "public"}
+                        </SubText>
+                      </Box>
+                      <Box>
+                        <SubText>{repo.description ?? "-"}</SubText>
+                      </Box>
+                    </Table.BodyCell>
+                    <Table.BodyCell
+                      css={{
+                        justifyContent: "flex-end",
+                        gap: "$2",
+                        alignItems: "flex-end",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <SubText>{repo.fork ? "Forked" : ""}</SubText>
+                      <SubText>
+                        {getUpdatedTime(Date.parse(repo.pushed_at))}
                       </SubText>
-                    </Box>
-                    <Box>
-                      <SubText>{repo.description ?? "-"}</SubText>
-                    </Box>
-                  </Table.BodyCell>
-                  <Table.BodyCell
-                    css={{
-                      justifyContent: "flex-end",
-                      gap: "$2",
-                      alignItems: "flex-end",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <SubText>{repo.fork ? "Forked" : ""}</SubText>
-                    <SubText>
-                      {getUpdatedTime(Date.parse(repo.pushed_at))}
-                    </SubText>
-                  </Table.BodyCell>
-                </Table.LinkBodyRow>
-              );
-            })}
-        </Table.Root>
-      </Box>
+                    </Table.BodyCell>
+                  </Table.LinkBodyRow>
+                );
+              })}
+          </Table.Root>
+        </Tabs.Content>
+      </Tabs.Root>
     </Box>
   );
 };
