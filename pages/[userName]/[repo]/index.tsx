@@ -65,7 +65,7 @@ const Page: NextPageWithLayout = () => {
         flexDirection: "column",
       }}
     >
-      <Box
+     {/*  <Box
         css={{
           gap: "$2",
           alignItems: "center",
@@ -80,7 +80,7 @@ const Page: NextPageWithLayout = () => {
         <Button disabled variant={"tertiary"}>
           {repo}
         </Button>
-      </Box>
+      </Box> */}
       <Tabs.Root defaultValue="pr">
         <Tabs.List
           css={{

@@ -1,16 +1,40 @@
 import { styled } from "../../stitches.config";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import Head from "next/head";
+import { Endpoints } from "@octokit/types";
+import { Box, Button, Link, Nav } from "../";
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 const StyledMain = styled("main", {
   display: "flex",
+  flexDirection: 'column'
 });
 
 const PageSection = styled("section", {
   width: "100%",
 });
 
+type userResponseData = Endpoints["GET /user"]["response"]["data"];
+
 export default function Layout({ children }: { children: ReactElement }) {
+
+  const { query } = useRouter();
+
+  const [user, setUser] = useState<userResponseData | null>(null)
+  useEffect(() => {
+    const userUrl = "/api/user";
+    fetch(userUrl, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+      },
+    }).then(async (data) => {
+      const dataBody = (await data.json()) as userResponseData;
+      setUser(dataBody);
+    })
+  }, [])
+
   return (
     <>
       <Head>
@@ -19,6 +43,7 @@ export default function Layout({ children }: { children: ReactElement }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <StyledMain>
+        <Nav />
         <PageSection>{children}</PageSection>
       </StyledMain>
     </>

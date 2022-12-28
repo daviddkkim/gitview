@@ -28,25 +28,13 @@ const MainText = styled("h2", {
 type listUserReposResponseData =
   Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"];
 
-type userResponseData = Endpoints["GET /user"]["response"]["data"];
 
 const Page: NextPageWithLayout = () => {
   const [data, setData] = React.useState<listUserReposResponseData[] | null>(
     null
   );
-  const [user, setUser] = React.useState<userResponseData | null>(null);
 
   useEffect(() => {
-    const userUrl = "/api/user";
-    fetch(userUrl, {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-      },
-    }).then(async (data) => {
-      const dataBody = (await data.json()) as userResponseData;
-      setUser(dataBody);
-    });
 
     const url = "/api/repos";
     fetch(url, {
@@ -60,19 +48,16 @@ const Page: NextPageWithLayout = () => {
     });
   }, []);
 
-  if (!user) return <div> loading... </div>;
+  if (!data) return <div> loading... </div>;
 
   return (
     <Box
       css={{
-        padding: "$4",
+        padding: "0 $4",
         gap: "$4",
         flexDirection: "column",
       }}
     >
-      <Button variant={"tertiary"} disabled>
-        {user.login}
-      </Button>
       <Box
         css={{
           gap: "$2",
@@ -85,7 +70,7 @@ const Page: NextPageWithLayout = () => {
           {data && (
             data.map((repo) => {
               return (
-                <Table.LinkBodyRow key={repo.id} href={"/" + user.login + "/" + repo.name}>
+                <Table.LinkBodyRow key={repo.id} href={"/" + repo.owner.login + "/" + repo.name}>
                   <Table.BodyCell css={{
                     flexDirection: 'column',
                     gap: '$2',
