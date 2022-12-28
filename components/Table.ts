@@ -2,7 +2,9 @@ import Link from "next/link";
 import { styled } from "../stitches.config";
 
 const Root = styled("div", {
-    display: "table",
+    display: "flex",
+    flexDirection: 'column',
+    gap: '$2',
     width: "100%",
     borderRadius: "$1",
 });
@@ -10,20 +12,24 @@ const Root = styled("div", {
 const HeaderRow = styled("div", {
     width: "100%",
     height: "$7",
-    display: "table-row",
+    display: "flex",
 });
 
 const LinkBodyRow = styled(Link, {
     cursor: 'default',
-    height: "$7",
-    display: "table-row",
+    display: "flex",
     outline: "none",
+    padding: "$3",
+    gap: '$4',
     textDecoration: 'none',
+    justifyContent:'space-between',
+    border: '1px solid $fgBorder',
+    background: 'linear-gradient(120deg, $colors$bgSecondary, $colors$fgHover)',
+    borderRadius: '$1',
     color: '$textPrimary',
     "&:hover": {
-        backgroundColor: "$fgHover",
+        background: "$fgHover",
     },
-    boxShadow: "0px 1px $colors$separator",
     "&:last-child": {
         boxShadow: "none",
     },
@@ -41,17 +47,16 @@ const HeaderCell = styled("div", {
     fontSize: "$2",
     fontWeight: 500,
     color: "$textSecondary",
-    display: "table-cell",
-    verticalAlign: 'middle'
+    display: "flex",
 });
 
 
 const BodyCell = styled("div", {
     justifyContent: "flex-start",
-    alignItems: "center",
-    padding: "$2 $5",
-    display: "table-cell",
-    verticalAlign: 'middle'
+    alignItems: "flex-start",
+    display: "flex",
+    gap: '$1'
+
 });
 
 export { HeaderCell, LinkBodyRow, HeaderRow, BodyCell, Root };

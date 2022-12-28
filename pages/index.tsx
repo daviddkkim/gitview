@@ -6,6 +6,7 @@ import { styled } from "../stitches.config";
 import { NextPageWithLayout } from "./_app";
 import { Table } from "../components";
 import { getUpdatedTime } from "../utils/time";
+import Image from "next/image";
 
 const Title = styled("h1", {
   margin: "0",
@@ -15,7 +16,13 @@ const Title = styled("h1", {
 
 const SubText = styled("span", {
   color: '$textSecondary',
-  fontSize: '$2'
+  fontSize: '$3'
+})
+
+const MainText = styled("h2", {
+  margin: 0,
+  fontWeight: 500,
+  fontSize: '$3'
 })
 
 type listUserReposResponseData =
@@ -75,33 +82,45 @@ const Page: NextPageWithLayout = () => {
         }}
       >
         <Table.Root>
-          <Table.HeaderRow>
-            <Table.HeaderCell>
-              Name
-            </Table.HeaderCell>
-            <Table.HeaderCell>
-              Description
-            </Table.HeaderCell>
-            <Table.HeaderCell>
-              Upated at
-            </Table.HeaderCell>
-          </Table.HeaderRow>
           {data && (
             data.map((repo) => {
               return (
                 <Table.LinkBodyRow key={repo.id} href={"/" + user.login + "/" + repo.name}>
-                  <Table.BodyCell>
-                    {repo.name} <SubText>{repo.private ? 'private' : "public"}</SubText>
-                  </Table.BodyCell>
-                  <Table.BodyCell>
-                    <SubText css={{
-                      fontSize:'$3'
+                  <Table.BodyCell css={{
+                    flexDirection: 'column',
+                    gap: '$2',
+                    alignItems: 'flex-start'
+                  }}>
+                    <Box css={{
+                      gap: '$1',
+                      alignItems: ' center'
                     }}>
-                      {repo.description}
-                    </SubText>
+                      <MainText>
+                        {repo.name}
+                      </MainText>
+                      <SubText css={{
+                        fontSize: '$3'
+                      }}>{repo.private ? 'private' : "public"}</SubText>
+                    </Box>
+                    <Box>
+                      <SubText>
+                        {repo.description ?? '-'}
+                      </SubText>
+                    </Box>
                   </Table.BodyCell>
-                  <Table.BodyCell>
-                    {getUpdatedTime((Date.parse(repo.pushed_at)))}
+                  <Table.BodyCell css={{
+                    justifyContent: 'flex-end',
+                    gap: '$2',
+                    alignItems: 'flex-end',
+                    flexDirection: 'column'
+
+                  }}>
+                    <SubText>
+                      {repo.fork ? "Forked" : ''}
+                    </SubText>
+                    <SubText>
+                      {getUpdatedTime((Date.parse(repo.pushed_at)))}
+                    </SubText>
                   </Table.BodyCell>
                 </Table.LinkBodyRow>
               );
