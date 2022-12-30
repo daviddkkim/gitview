@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 const NavContainer = styled("div", {
   display: "flex",
   height: "$7",
-  padding: "$6 $4",
+  padding: "$6 $7",
   alignItems: "center",
 });
 
