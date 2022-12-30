@@ -2,12 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { octokit } from "../../../utils/octokit";
 
 export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
-
-    const response = await octokit.graphql(
-        `query {
+  const response = await octokit.graphql(
+    `query {
             viewer {
               pullRequests(first: 100, states: OPEN) {
                 totalCount
@@ -62,6 +61,6 @@ export default async function handler(
               }
             }
           }`
-    )
-    res.status(200).json(response);
+  );
+  res.status(200).json(response);
 }

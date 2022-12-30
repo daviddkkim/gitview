@@ -18,14 +18,14 @@ const Title = styled("h1", {
 const SubText = styled("span", {
   color: "$textSecondary",
   fontSize: "$3",
-  width:'100%'
+  width: "100%",
 });
 
 const MainText = styled("h2", {
   margin: 0,
   fontWeight: 500,
   fontSize: "$3",
-  width:'100%'
+  width: "100%",
 });
 
 type listUserReposResponseData =
@@ -36,8 +36,8 @@ const Page: NextPageWithLayout = () => {
     null
   );
 
-  const [pulls, setPulls] = React.useState<GraphQlQueryResponseData | null>()
-  console.log(pulls)
+  const [pulls, setPulls] = React.useState<GraphQlQueryResponseData | null>();
+  console.log(pulls);
   useEffect(() => {
     const url = "/api/repos";
     fetch(url, {
@@ -60,8 +60,6 @@ const Page: NextPageWithLayout = () => {
       const dataBody = (await data.json()) as GraphQlQueryResponseData;
       setPulls(dataBody);
     });
-
-
   }, []);
 
   if (!data) return <div> loading... </div>;
@@ -84,7 +82,7 @@ const Page: NextPageWithLayout = () => {
           css={{
             marginLeft: "-$4",
             marginRight: "-$4",
-            padding: '0 $6'
+            padding: "0 $6",
           }}
         >
           <Tabs.Trigger asChild value={"pulls"}>
@@ -94,27 +92,29 @@ const Page: NextPageWithLayout = () => {
             <Button variant={"tertiary"}>Repos</Button>
           </Tabs.Trigger>
         </Tabs.List>
-        <Tabs.Content value={"pulls"} css={{
-          flexDirection: 'column',
-        }}>
-          <Box css={{
-            flexDirection: 'column',
-            padding: '$2 $6'
-          }}>
+        <Tabs.Content
+          value={"pulls"}
+          css={{
+            flexDirection: "column",
+          }}
+        >
+          <Box
+            css={{
+              flexDirection: "column",
+              padding: "$2 $6",
+            }}
+          >
             <Table.Root>
               {pulls &&
                 pulls.viewer.pullRequests.nodes.map((pull: any) => {
                   return (
-                    <Table.LinkBodyRow
-                      key={pull.id}
-                      href={"/"}
-                    >
+                    <Table.LinkBodyRow key={pull.id} href={"/"}>
                       <Table.BodyCell
                         css={{
                           flexDirection: "column",
                           gap: "$3",
                           alignItems: "flex-start",
-                          width: '100%'
+                          width: "100%",
                         }}
                       >
                         <Box
@@ -125,19 +125,25 @@ const Page: NextPageWithLayout = () => {
                           }}
                         >
                           <MainText>{pull.title}</MainText>
-                          <SubText css={{
-                            width:'100%',
-                            textOverflow: 'ellipsis',
-                            overflow: 'hidden',
-                            whiteSpace: 'wrap',
-                            display: '-webkit-box',
-                            '-webkit-line-clamp': 2,
-                            '-webkit-box-orient': 'vertical'
-                          }}>{pull.body}</SubText>
+                          <SubText
+                            css={{
+                              width: "100%",
+                              textOverflow: "ellipsis",
+                              overflow: "hidden",
+                              whiteSpace: "wrap",
+                              display: "-webkit-box",
+                              "-webkit-line-clamp": 2,
+                              "-webkit-box-orient": "vertical",
+                            }}
+                          >
+                            {pull.body}
+                          </SubText>
                         </Box>
-                        <Box css={{
-                          gap: '$2'
-                        }}> 
+                        <Box
+                          css={{
+                            gap: "$2",
+                          }}
+                        >
                           <Box
                             css={{
                               borderRadius: "100%",
@@ -163,13 +169,18 @@ const Page: NextPageWithLayout = () => {
             </Table.Root>
           </Box>
         </Tabs.Content>
-        <Tabs.Content value={"repos"} css={{
-          flexDirection: 'column',
-        }}>
-          <Box css={{
-            flexDirection: 'column',
-            padding: '$2 $6'
-          }}>
+        <Tabs.Content
+          value={"repos"}
+          css={{
+            flexDirection: "column",
+          }}
+        >
+          <Box
+            css={{
+              flexDirection: "column",
+              padding: "$2 $6",
+            }}
+          >
             <Table.Root>
               {data &&
                 data.map((repo) => {
