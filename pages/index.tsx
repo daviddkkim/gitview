@@ -1,5 +1,6 @@
 import { Endpoints } from "@octokit/types";
 import React from "react";
+import Image from "next/image";
 import { ReactElement, useEffect } from "react";
 import { Layout, Box, Button, Tabs } from "../components";
 import { styled } from "../stitches.config";
@@ -17,12 +18,14 @@ const Title = styled("h1", {
 const SubText = styled("span", {
   color: "$textSecondary",
   fontSize: "$3",
+  width:'100%'
 });
 
 const MainText = styled("h2", {
   margin: 0,
   fontWeight: 500,
   fontSize: "$3",
+  width:'100%'
 });
 
 type listUserReposResponseData =
@@ -109,8 +112,9 @@ const Page: NextPageWithLayout = () => {
                       <Table.BodyCell
                         css={{
                           flexDirection: "column",
-                          gap: "$2",
+                          gap: "$3",
                           alignItems: "flex-start",
+                          width: '100%'
                         }}
                       >
                         <Box
@@ -122,6 +126,7 @@ const Page: NextPageWithLayout = () => {
                         >
                           <MainText>{pull.title}</MainText>
                           <SubText css={{
+                            width:'100%',
                             textOverflow: 'ellipsis',
                             overflow: 'hidden',
                             whiteSpace: 'wrap',
@@ -130,17 +135,26 @@ const Page: NextPageWithLayout = () => {
                             '-webkit-box-orient': 'vertical'
                           }}>{pull.body}</SubText>
                         </Box>
-                      </Table.BodyCell>
-                      <Table.BodyCell
-                        css={{
-                          justifyContent: "flex-end",
-                          gap: "$2",
-                          alignItems: "flex-end",
-                          flexDirection: "column",
-                        }}
-                      >
+                        <Box css={{
+                          gap: '$2'
+                        }}> 
+                          <Box
+                            css={{
+                              borderRadius: "100%",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <Image
+                              src={pull.author.avatarUrl}
+                              height={20}
+                              width={20}
+                              alt={"avatar for " + pull.author.login}
+                            />
+                          </Box>
+                          {pull.author.login}
+                        </Box>
                         <SubText>
-                          {getUpdatedTime(Date.parse(pull.created_at))}
+                          Created {getUpdatedTime(Date.parse(pull.createdAt))}
                         </SubText>
                       </Table.BodyCell>
                     </Table.LinkBodyRow>
